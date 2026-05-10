@@ -280,14 +280,19 @@ def animate_agent(agent, prices, speed=3, window=10):
                 line_bh, day_line, state_text, port_text, best_marker,
                 *bars_q, *q_val_texts]
 
-    ani = animation.FuncAnimation(
+    # Guardar referência global para evitar garbage collection antes de renderizar
+    global _active_animation
+    _active_animation = animation.FuncAnimation(
         fig, update, frames=n,
         init_func=init, interval=INTERVAL,
         blit=False, repeat=False
     )
 
     plt.show()
-    return ani
+    return _active_animation
+
+
+_active_animation = None  # referência global para manter a animação viva
 
 
 # ──────────────────────────────────────────────────────────────────────────────
